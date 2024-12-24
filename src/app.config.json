@@ -15,11 +15,6 @@
           {
             "name": "关于我",
             "href": "/about-me"
-          },
-          {
-            "name": "关于此项目",
-            "href": "https://github.com/innei/Shiro",
-            "external": true
           }
         ]
       },
@@ -33,11 +28,6 @@
           {
             "name": "友链",
             "href": "/friends"
-          },
-          {
-            "name": "监控",
-            "href": "https://status.shizuri.net/status/main",
-            "external": true
           }
         ]
       },
@@ -74,8 +64,8 @@
       "scripts": []
     },
     "site": {
-      "favicon": "/innei.svg",
-      "faviconDark": "/innei-dark.svg"
+      "favicon": "/favicon.ico",
+      "faviconDark": "/favicon.ico"
     },
     "hero": {
       "title": {
@@ -87,7 +77,7 @@
           },
           {
             "type": "h1",
-            "text": "Innei",
+            "text": "Armerr",
             "class": "font-medium mx-2 text-4xl"
           },
           {

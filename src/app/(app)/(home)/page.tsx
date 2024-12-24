@@ -9,19 +9,14 @@ import { createElement } from 'react'
 
 import { ErrorBoundary } from '~/components/common/ErrorBoundary'
 import {
-  FaSolidComments,
   FaSolidFeatherAlt,
   FaSolidHistory,
-  FaSolidUserFriends,
   IcTwotoneSignpost,
   MdiFlask,
   MdiLightbulbOn20,
-  RMixPlanet,
 } from '~/components/icons/menu-collection'
 import { isSupportIcon, SocialIcon } from '~/components/modules/home/SocialIcon'
 import { usePresentSubscribeModal } from '~/components/modules/subscribe'
-import { StyledButton } from '~/components/ui/button'
-import { NumberSmoothTransition } from '~/components/ui/number-transition/NumberSmoothTransition'
 import {
   BottomToUpTransitionView,
   TextUpTransitionView,
@@ -30,7 +25,6 @@ import { microReboundPreset, softBouncePreset } from '~/constants/spring'
 import { clsxm } from '~/lib/helper'
 import { noopObj } from '~/lib/noop'
 import { apiClient } from '~/lib/request'
-import { toast } from '~/lib/toast'
 import {
   useAggregationSelector,
   useAppConfigSelector,
@@ -229,35 +223,20 @@ const windsock = [
     icon: FaSolidFeatherAlt,
   },
   {
-    title: '度过的时光呀',
+    title: '时间线',
     icon: FaSolidHistory,
     path: '/timeline',
   },
   {
-    title: '朋友们',
-    icon: FaSolidUserFriends,
-    path: '/friends',
-  },
-  {
-    title: '写下一点思考',
+    title: '思考',
     icon: MdiLightbulbOn20,
     path: '/thinking',
   },
   {
-    title: '看看我做些啥',
+    title: '项目',
     icon: MdiFlask,
     path: '/projects',
-  },
-  {
-    title: '记录下一言',
-    path: '/says',
-    icon: FaSolidComments,
-  },
-  {
-    title: '跃迁',
-    icon: RMixPlanet,
-    path: 'https://travel.moe/go.html',
-  },
+  }
 ]
 
 const Windsock = () => {
@@ -323,7 +302,7 @@ const Windsock = () => {
         </ul>
       </div>
 
-      <div className="mt-24 flex justify-center gap-4">
+      {/*<div className="mt-24 flex justify-center gap-4">
         <StyledButton
           className="center flex gap-2 bg-red-400"
           onClick={() => {
@@ -372,7 +351,7 @@ const Windsock = () => {
           订阅
           <i className="i-material-symbols-notifications-active" />
         </StyledButton>
-      </div>
+      </div>*/}
     </>
   )
 }
