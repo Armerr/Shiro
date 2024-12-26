@@ -49,3 +49,10 @@
   font-weight: normal;
   font-style: normal;
 }
+
+@font-face {
+  font-family: 'cangerjinkai';
+  src: url('https://img.armerr.top/uPic/202403111602/%E4%BB%93%E8%80%B3%E4%BB%8A%E6%A5%B7.ttf');
+  font-weight: normal;
+  font-style: normal;
+}
