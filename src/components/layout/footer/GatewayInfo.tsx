@@ -168,10 +168,10 @@ const RoomsInfo = () => {
       </div>
     )
   if (data.length === 0)
-    return <div className="text-gray-500">还没有小伙伴在阅览文章哦~</div>
+    return <div className="text-gray-500">還沒有小夥伴在閱覽文章哦~</div>
   return (
     <div className="lg:max-w-[400px]">
-      <div className="mb-2 text-sm font-medium">下面的内容正在被看爆：</div>
+      <div className="mb-2 text-sm font-medium">下面的內容正在被看爆：</div>
       <ul className="flex flex-col justify-between gap-2">
         {data.map((room) => (
           <li key={room.path} className="flex items-center justify-between">

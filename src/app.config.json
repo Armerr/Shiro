@@ -6,14 +6,14 @@
     },
     "linkSections": [
       {
-        "name": "关于",
+        "name": "關於",
         "links": [
           {
-            "name": "关于本站",
+            "name": "關於本站",
             "href": "/about-site"
           },
           {
-            "name": "关于我",
+            "name": "關於我",
             "href": "/about-me"
           }
         ]
