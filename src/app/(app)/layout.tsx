@@ -115,7 +115,7 @@ export const generateMetadata = async (): Promise<Metadata> => {
     alternates: {
       canonical: url.webUrl,
       types: {
-        'application/rss+xml': [{ url: 'feed', title: 'RSS 訂閱' }],
+        'application/rss+xml': [{ url: 'feed', title: 'RSS 订阅' }],
       },
     },
   } satisfies Metadata

@@ -44,15 +44,15 @@ export const relativeTimeFromNow = (
 
   if (elapsed < msPerMinute) {
     const gap = Math.ceil(elapsed / 1000)
-    return gap <= 0 ? '剛剛' : `${gap} 秒前`
+    return gap <= 0 ? '刚刚' : `${gap} 秒前`
   } else if (elapsed < msPerHour) {
-    return `${Math.round(elapsed / msPerMinute)} 分鐘前`
+    return `${Math.round(elapsed / msPerMinute)} 分钟前`
   } else if (elapsed < msPerDay) {
-    return `${Math.round(elapsed / msPerHour)} 小時前`
+    return `${Math.round(elapsed / msPerHour)} 小时前`
   } else if (elapsed < msPerMonth) {
     return `${Math.round(elapsed / msPerDay)} 天前`
   } else if (elapsed < msPerYear) {
-    return `${Math.round(elapsed / msPerMonth)} 個月前`
+    return `${Math.round(elapsed / msPerMonth)} 个月前`
   } else {
     return `${Math.round(elapsed / msPerYear)} 年前`
   }
@@ -94,8 +94,8 @@ export function formatSeconds(seconds: number) {
 
   let formatted = ''
   if (days > 0) formatted += `${days} 天 `
-  if (hrs > 0) formatted += `${hrs} 小時 `
-  if (mins > 0) formatted += `${mins} 分鐘`
+  if (hrs > 0) formatted += `${hrs} 小时 `
+  if (mins > 0) formatted += `${mins} 分钟`
 
   return formatted.trim()
 }

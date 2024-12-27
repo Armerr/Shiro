@@ -1,17 +1,17 @@
 export const defaultLinkSections: LinkSection[] = [
   {
-    name: '關於',
+    name: '关于',
     links: [
       {
-        name: '關於本站',
+        name: '关于本站',
         href: '/about-site',
       },
       {
-        name: '關於我',
+        name: '关于我',
         href: '/about-me',
       },
       {
-        name: '關於此項目',
+        name: '关于此项目',
         href: 'https://github.com/innei/Shiro',
         external: true,
       },
@@ -21,35 +21,35 @@ export const defaultLinkSections: LinkSection[] = [
     name: '更多',
     links: [
       {
-        name: '時間線',
+        name: '时间线',
         href: '/timeline',
       },
       {
-        name: '友鏈',
+        name: '友链',
         href: '/friends',
       },
       {
-        name: '監控',
+        name: '监控',
         href: 'https://status.shizuri.net/status/main',
         external: true,
       },
     ],
   },
   {
-    name: '聯繫',
+    name: '联系',
     links: [
       {
-        name: '寫留言',
+        name: '写留言',
         href: '/message',
       },
       {
-        name: '發郵件',
-        href: 'mailto:armerr277@gmail.com',
+        name: '发邮件',
+        href: 'mailto:i@innei.in',
         external: true,
       },
       {
         name: 'GitHub',
-        href: 'https://github.com/Armerr',
+        href: 'https://github.com/innei',
         external: true,
       },
     ],

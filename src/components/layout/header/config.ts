@@ -8,6 +8,7 @@ import {
   FaSolidDotCircle,
   FaSolidFeatherAlt,
   FaSolidHistory,
+  FaSolidUserFriends,
   IcTwotoneSignpost,
   IonBook,
   MdiFlask,
@@ -24,7 +25,7 @@ export interface IHeaderMenu {
 }
 export const headerMenuConfig: IHeaderMenu[] = [
   {
-    title: '首頁',
+    title: '首页',
     path: '/',
     type: 'Home',
     icon: h(FaSolidDotCircle),
@@ -38,7 +39,7 @@ export const headerMenuConfig: IHeaderMenu[] = [
     icon: h(IcTwotoneSignpost),
   },
   {
-    title: '手記',
+    title: '手记',
     type: 'Note',
     path: '/notes',
     icon: h(FaSolidFeatherAlt),
@@ -46,12 +47,12 @@ export const headerMenuConfig: IHeaderMenu[] = [
   },
 
   {
-    title: '時光',
+    title: '时光',
     icon: h(FaSolidHistory),
     path: '/timeline',
     subMenu: [
       {
-        title: '手記',
+        title: '手记',
         icon: h(FaSolidFeatherAlt),
         path: '/timeline?type=note',
       },
@@ -61,12 +62,12 @@ export const headerMenuConfig: IHeaderMenu[] = [
         path: '/timeline?type=post',
       },
       {
-        title: '回憶',
+        title: '回忆',
         icon: h(FaSolidCircle),
         path: '/timeline?memory=1',
       },
       {
-        title: '專欄',
+        title: '专栏',
         path: '/notes/topics',
         icon: h('i', {
           className: 'i-mingcute-align-bottom-fill flex center',
@@ -74,6 +75,12 @@ export const headerMenuConfig: IHeaderMenu[] = [
       },
     ],
   },
+  {
+    title: '友链',
+    icon: h(FaSolidUserFriends),
+    path: '/friends',
+  },
+
   {
     title: '更多',
     icon: h(FaSolidCircleNotch),
@@ -85,12 +92,12 @@ export const headerMenuConfig: IHeaderMenu[] = [
         path: '/thinking',
       },
       {
-        title: '項目',
+        title: '项目',
         icon: h(MdiFlask),
         path: '/projects',
       },
       {
-        title: '詩詞',
+        title: '诗词',
         path: '/says',
         icon: h(FaSolidComments),
       }

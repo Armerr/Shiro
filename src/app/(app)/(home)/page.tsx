@@ -181,7 +181,7 @@ const Hero = () => {
           )}
         >
           <small className="text-center">
-            必然者為重，重者才有價值。人的偉大在於他扛起命運，就像用肩膀頂住天穹的巨神阿特拉斯壹樣。
+            当第一颗卫星飞向大气层外，我们便以为自己终有一日会征服宇宙。
           </small>
           <span className="mt-8 animate-bounce">
             <i className="i-mingcute-right-line rotate-90 text-2xl" />
@@ -253,8 +253,8 @@ const Windsock = () => {
   return (
     <>
       <div className="center mt-28 flex flex-col">
-        <div className="my-5 text-2xl font-medium">風向標</div>
-        <div className="mb-24 opacity-90">去別處看看？</div>
+        <div className="my-5 text-2xl font-medium">风向标</div>
+        <div className="mb-24 opacity-90">去到别去看看？</div>
         <ul className="flex flex-col flex-wrap gap-2 gap-y-8 opacity-80 lg:flex-row">
           {windsock.map((item, index) => {
             return (

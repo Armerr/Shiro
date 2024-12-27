@@ -192,7 +192,7 @@ const FooterBottom = async () => {
           </a>
           <Divider />
           <a href="/sitemap.xml" target="_blank" rel="noreferrer">
-            站點地圖
+            站点地图
           </a>
           <Divider className="inline" />
 
