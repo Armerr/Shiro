@@ -8,6 +8,7 @@ import {
   FaSolidDotCircle,
   FaSolidFeatherAlt,
   FaSolidHistory,
+  FaSolidUserFriends,
   IcTwotoneSignpost,
   IonBook,
   MdiFlask,
@@ -73,6 +74,11 @@ export const headerMenuConfig: IHeaderMenu[] = [
         }),
       },
     ],
+  },
+  {
+    title: '友链',
+    icon: h(FaSolidUserFriends),
+    path: '/friends',
   },
 
   {

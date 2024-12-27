@@ -23,7 +23,16 @@ export const defaultLinkSections: LinkSection[] = [
       {
         name: '时间线',
         href: '/timeline',
-      }
+      },
+      {
+        name: '友链',
+        href: '/friends',
+      },
+      {
+        name: '监控',
+        href: 'https://status.shizuri.net/status/main',
+        external: true,
+      },
     ],
   },
   {
@@ -35,12 +44,12 @@ export const defaultLinkSections: LinkSection[] = [
       },
       {
         name: '发邮件',
-        href: 'mailto:armerr277@gmail.com',
+        href: 'mailto:i@innei.in',
         external: true,
       },
       {
         name: 'GitHub',
-        href: 'https://github.com/Armerr',
+        href: 'https://github.com/innei',
         external: true,
       },
     ],
