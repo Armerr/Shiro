@@ -22,7 +22,7 @@ export function Component() {
 
       <div className="mt-8 flex flex-col gap-4 lg:grid lg:grid-cols-2">
         <div>
-          <h3 className="my-[10px] font-light text-opacity-80">一言</h3>
+          <h3 className="my-[10px] font-light text-opacity-80">詩詞</h3>
 
           <Hitokoto />
         </div>

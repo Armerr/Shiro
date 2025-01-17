@@ -73,7 +73,7 @@ export const NoteFooterNavigation = () => {
                 )
               }}
             >
-              <span>时间线</span>
+              <span>時間線</span>
               <MdiClockTimeThreeOutline />
             </div>
           </section>

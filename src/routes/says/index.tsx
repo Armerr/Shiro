@@ -33,7 +33,7 @@ export const Component = () => {
 }
 
 export const config = defineRouteConfig({
-  title: '一言',
+  title: '詩詞',
   icon: <i className="i-mingcute-comment-2-line" />,
   priority: 5,
 })

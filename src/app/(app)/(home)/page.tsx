@@ -223,7 +223,7 @@ const windsock = [
     icon: FaSolidFeatherAlt,
   },
   {
-    title: '时间线',
+    title: '時間線',
     icon: FaSolidHistory,
     path: '/timeline',
   },

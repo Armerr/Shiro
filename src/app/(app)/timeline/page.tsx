@@ -111,7 +111,7 @@ export default function TimelinePage() {
 
   const memory = search.get('bookmark') || search.get('memory')
 
-  const title = !memory ? '时间线' : '回忆'
+  const title = !memory ? '時間線' : '回忆'
 
   const { posts = [], notes = [] } = data
   const sortedMap = new Map<number, MapType[]>()
