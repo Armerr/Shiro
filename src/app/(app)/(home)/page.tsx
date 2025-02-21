@@ -315,7 +315,7 @@ const Windsock = () => {
                 })
               })
 
-            toast('谢谢你！', undefined, {
+            toast.success('谢谢你！', {
               iconElement: (
                 <m.i
                   className="i-mingcute-heart-fill text-uk-red-light"
