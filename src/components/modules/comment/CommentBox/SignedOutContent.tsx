@@ -25,7 +25,7 @@ export function CommentBoxSignedOutContent() {
 
   return (
     <div className="center flex h-[150px] w-full flex-col rounded-lg bg-gray-100/80 dark:bg-zinc-900/80">
-      <p className="mb-4 text-sm">使用社交账号登录</p>
+      <p className="mb-4 text-sm">使用社群帳號登入</p>
       <AuthProvidersRender />
 
       <StyledButton
@@ -36,7 +36,7 @@ export function CommentBoxSignedOutContent() {
           setCommentMode(CommentBoxMode.legacy)
         }}
       >
-        免登录评论
+          免登入評論
       </StyledButton>
     </div>
   )

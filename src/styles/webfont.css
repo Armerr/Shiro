@@ -56,3 +56,10 @@
   font-weight: normal;
   font-style: normal;
 }
+
+@font-face {
+  font-family: 'Maple Mono NF CN';
+  src: url('https://static.zeoseven.com/zsft/442/main/result.css');
+  font-weight: normal;
+  font-style: normal;
+}

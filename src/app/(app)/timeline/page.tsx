@@ -145,8 +145,8 @@ export default function TimelinePage() {
         title: note.title,
         meta: [
           note.mood ? `心情：${note.mood}` : undefined,
-          note.weather ? `天气：${note.weather}` : undefined,
-          '手记',
+          note.weather ? `天氣：${note.weather}` : undefined,
+          '手記',
         ].filter(Boolean) as string[],
         date,
         href: `/notes/${note.nid}`,
@@ -173,7 +173,7 @@ export default function TimelinePage() {
 
   const subtitle = `共有 ${
     sortedArr.flat(2).filter((i) => typeof i === 'object').length
-  } 篇文章，${!memory ? '再接再厉' : '回顾一下从前吧'}`
+  } 篇文章，${!memory ? '再接再厲' : '回顧一下從前吧'}`
 
   return (
     <NormalContainer>
@@ -185,7 +185,7 @@ export default function TimelinePage() {
           <>
             <Divider className="my-8 w-[80px]" />
             <TimelineProgress />
-            <p>活在当下，珍惜眼下</p>
+            <p>活在當下，珍惜眼下</p>
           </>
         )}
       </header>
