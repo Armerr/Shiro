@@ -1,11 +1,4 @@
-import { Noto_Serif_SC } from 'next/font/google'
-import localFont from 'next/font/local'
-// const sansFont = Manrope({
-//   subsets: ['latin'],
-//   weight: ['300', '400', '500'],
-//   variable: '--font-sans',
-//   display: 'swap',
-// })
+import { Manrope, Noto_Serif_SC } from 'next/font/google'
 
 const serifFont = Noto_Serif_SC({
   subsets: ['latin'],
@@ -15,14 +8,9 @@ const serifFont = Noto_Serif_SC({
   fallback: ['Noto Serif SC'],
 })
 
-const sansFont = localFont({
-  src: [
-    {
-      path: './font/MapleMonoNF-CN.woff2',
-      weight: '400',
-      style: 'normal',
-    },
-  ],
+const sansFont = Manrope({
+  subsets: ['latin'],
+  weight: ['300', '400', '500'],
   variable: '--font-sans',
   display: 'swap',
 })
