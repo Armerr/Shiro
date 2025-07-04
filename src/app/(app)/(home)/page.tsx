@@ -326,7 +326,7 @@ const Windsock = () => {
                     scale: 1.22,
                   }}
                   transition={{
-                    easings: ['easeInOut'],
+                    ease: 'easeInOut',
                     delay: 0.3,
                     repeat: 5,
                     repeatDelay: 0.3,
