@@ -30,13 +30,7 @@ const shouldCatchContainerName = [
   'masonry',
 ].join('|')
 
-export const ContainerRule: MarkdownToJSX.Rule<{
-  node: {
-    type: string
-    params: string
-    content: string
-  }
-}> = {
+export const ContainerRule: MarkdownToJSX.Rule = {
   match: (source: string) => {
     const result =
       /^\s*::: *(?<type>.*?) *(?:\{(?<params>.*?)\} *)?\n(?<content>[\s\S]+?)\s*::: *(?:\n *)+/.exec(
@@ -53,11 +47,11 @@ export const ContainerRule: MarkdownToJSX.Rule<{
   parse(capture) {
     const { groups } = capture
     return {
-      node: { ...groups } as any,
+      node: { ...groups },
     }
   },
 
-  render(node, _, state) {
+  react(node, _, state) {
     const { type, params, content } = node.node
 
     switch (type) {
@@ -101,11 +95,7 @@ export const ContainerRule: MarkdownToJSX.Rule<{
         }
 
         return (
-          <Banner
-            type={params as 'warn' | 'error' | 'info' | 'success' | 'warning'}
-            className="my-4"
-            key={state?.key}
-          >
+          <Banner type={params} className="my-4" key={state?.key}>
             <WrappedElementProvider className="w-full">
               <Markdown
                 value={content}
@@ -160,7 +150,7 @@ export const ContainerRule: MarkdownToJSX.Rule<{
             return (
               <GridMarkdownImages
                 height={rows && cols ? +rows / +cols : 1}
-                key={state?.key}
+                key={state.key}
                 imagesSrc={imagesSrc}
                 Wrapper={Grid}
               />

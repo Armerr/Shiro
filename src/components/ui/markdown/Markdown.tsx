@@ -2,7 +2,7 @@
 
 import { clsx } from 'clsx'
 import type { MarkdownToJSX } from 'markdown-to-jsx'
-import { compiler, RuleType, sanitizer } from 'markdown-to-jsx'
+import { compiler, sanitizeUrl } from 'markdown-to-jsx'
 import Script from 'next/script'
 import type * as React from 'react'
 import type { FC, PropsWithChildren } from 'react'
@@ -20,9 +20,11 @@ import { Gallery } from '../gallery'
 import { MarkdownLink } from '../link/MarkdownLink'
 import { LinkCard, LinkCardSource } from '../link-card'
 import styles from './markdown.module.css'
+import { AlertsRule } from './parsers/alert'
 import { ContainerRule } from './parsers/container'
 import { InsertRule } from './parsers/ins'
 import { KateXBlockRule, KateXRule } from './parsers/katex'
+import { MarkRule } from './parsers/mark'
 import { MentionRule } from './parsers/mention'
 import { SpoilerRule } from './parsers/spoiler'
 import {
@@ -33,14 +35,12 @@ import {
   MTableRow,
   MTableTd,
 } from './renderers'
-import { MBlockQuote } from './renderers/blockqoute'
 import { MDetails } from './renderers/collapse'
 import { MFootNote } from './renderers/footnotes'
 import { createMarkdownHeadingComponent } from './renderers/heading'
 import { MarkdownImage } from './renderers/image'
 import { Tab, Tabs } from './renderers/tabs'
 import { MTag } from './renderers/tag'
-import { Video } from './renderers/video'
 import { getFootNoteDomId, getFootNoteRefDomId } from './utils/get-id'
 import { redHighlight } from './utils/redHighlight'
 
@@ -48,7 +48,7 @@ export interface MdProps {
   value?: string
 
   style?: React.CSSProperties
-  readonly renderers?: Partial<MarkdownToJSX.PartialRules>
+  readonly renderers?: Record<string, Partial<MarkdownToJSX.Rule>>
   wrapperProps?: React.DetailedHTMLProps<
     React.HTMLAttributes<HTMLDivElement>,
     HTMLDivElement
@@ -83,7 +83,7 @@ export const Markdown: FC<MdProps & MarkdownToJSX.Options & PropsWithChildren> =
       className,
       overrides,
       extendsRules,
-
+      additionalParserRules,
       as: As = 'div',
       allowsScript = false,
       removeWrapper = false,
@@ -123,7 +123,6 @@ export const Markdown: FC<MdProps & MarkdownToJSX.Options & PropsWithChildren> =
           Tabs,
 
           tab: Tab,
-          video: Video,
 
           // for custom react component
           // Tag: MTag,
@@ -135,27 +134,18 @@ export const Markdown: FC<MdProps & MarkdownToJSX.Options & PropsWithChildren> =
           ...overrides,
         },
 
-        overrideRules: {
-          [RuleType.heading]: {
-            render(node, output, state) {
+        extendsRules: {
+          heading: {
+            react(node, output, state) {
               return (
                 <MHeader id={node.id} level={node.level} key={state?.key}>
-                  {output(node.children, state!)}
+                  {output(node.content, state!)}
                 </MHeader>
               )
             },
           },
-          [RuleType.textMarked]: {
-            render(node, output, state) {
-              return (
-                <mark key={state?.key} className="rounded-md">
-                  <span className="px-1">{output(node.children, state!)}</span>
-                </mark>
-              )
-            },
-          },
-          [RuleType.gfmTask]: {
-            render(node, _, state) {
+          gfmTask: {
+            react(node, _, state) {
               return (
                 <input
                   type="checkbox"
@@ -168,50 +158,38 @@ export const Markdown: FC<MdProps & MarkdownToJSX.Options & PropsWithChildren> =
             },
           },
 
-          [RuleType.link]: {
-            render(node, output, state) {
+          link: {
+            react(node, output, state) {
               const { target, title } = node
 
               let realText = ''
 
-              for (const child of node.children) {
-                if (child.type === RuleType.text) {
-                  realText += child.text
+              for (const child of node.content) {
+                if (child.type === 'text') {
+                  realText += child.content
                 }
               }
 
               return (
                 <MarkdownLink
-                  href={sanitizer(target)!}
+                  href={sanitizeUrl(target)!}
                   title={title}
                   key={state?.key}
                   text={realText}
                 >
-                  {output(node.children, state!)}
+                  {output(node.content, state!)}
                 </MarkdownLink>
               )
             },
           },
 
-          [RuleType.blockQuote]: {
-            render(node, output, state) {
-              return (
-                <MBlockQuote key={state?.key} alert={node.alert}>
-                  {output(node.children, state!)}
-                </MBlockQuote>
-              )
-            },
-          },
-
-          [RuleType.footnoteReference]: {
-            render(node, output, state) {
-              const { footnoteMap, text } = node
-              const footnote = footnoteMap.get(text)
+          footnoteReference: {
+            react(node, output, state) {
+              const { footnoteMap, content } = node
+              const footnote = footnoteMap.get(content)
               const linkCardId = (() => {
                 try {
-                  const thisUrl = new URL(
-                    footnote?.footnote?.replace(': ', '') ?? '',
-                  )
+                  const thisUrl = new URL(footnote?.footnote?.replace(': ', ''))
                   const isCurrentHost =
                     thisUrl.hostname === window.location.hostname
                   if (!isCurrentHost && !isDev) {
@@ -231,10 +209,10 @@ export const Markdown: FC<MdProps & MarkdownToJSX.Options & PropsWithChildren> =
                     as="span"
                     triggerElement={
                       <a
-                        href={`${getFootNoteDomId(text)}`}
+                        href={`${getFootNoteDomId(content)}`}
                         onClick={(e) => {
                           e.preventDefault()
-                          const id = getFootNoteDomId(text)
+                          const id = getFootNoteDomId(content)
                           springScrollToElement(
                             document.getElementById(id)!,
                             -window.innerHeight / 2,
@@ -243,8 +221,8 @@ export const Markdown: FC<MdProps & MarkdownToJSX.Options & PropsWithChildren> =
                         }}
                       >
                         <sup
-                          id={`${getFootNoteRefDomId(text)}`}
-                        >{`[^${text}]`}</sup>
+                          id={`${getFootNoteRefDomId(content)}`}
+                        >{`[^${content}]`}</sup>
                       </a>
                     }
                     type="tooltip"
@@ -261,46 +239,86 @@ export const Markdown: FC<MdProps & MarkdownToJSX.Options & PropsWithChildren> =
               )
             },
           },
+          codeFenced: {
+            parse(capture /* , parse, state */) {
+              return {
+                content: capture[4],
+                lang: capture[2] || undefined,
+                type: 'codeBlock',
 
-          [RuleType.codeBlock]: {
-            render(node, output, state) {
+                attrs: capture[3],
+              }
+            },
+          },
+          // htmlBlock: {
+          //   react(node, output, state) {
+          //     console.log(node, state)
+          //     return null
+          //   },
+          // },
+          codeBlock: {
+            react(node, output, state) {
               return (
                 <CodeBlockRender
                   key={state?.key}
-                  content={node.text}
+                  content={node.content}
                   lang={node.lang}
-                  attrs={node?.rawAttrs}
+                  attrs={node?.attrs}
                 />
               )
             },
           },
-          [RuleType.codeInline]: {
-            render(node, output, state) {
+          codeInline: {
+            react(node, output, state) {
               return (
                 <code
                   key={state?.key}
                   className="rounded-md bg-zinc-200 px-2 font-mono dark:bg-neutral-800"
                 >
-                  {node.text}
+                  {node.content}
                 </code>
               )
             },
           },
 
-          [RuleType.orderedList]: listRule as any,
-          [RuleType.unorderedList]: listRule as any,
+          list: {
+            react(node, output, state) {
+              const Tag = node.ordered ? 'ol' : 'ul'
 
+              return (
+                <Tag key={state?.key} start={node.start}>
+                  {node.items.map((item: any, i: number) => {
+                    let className = ''
+                    if (item[0]?.type === 'gfmTask') {
+                      className = 'list-none flex items-center'
+                    }
+
+                    return (
+                      <li className={className} key={i}>
+                        {output(item, state!)}
+                      </li>
+                    )
+                  })}
+                </Tag>
+              )
+            },
+          },
+
+          ...extendsRules,
           ...renderers,
         },
-        extendsRules: {
+        additionalParserRules: {
           spoilder: SpoilerRule,
           mention: MentionRule,
 
+          mark: MarkRule,
           ins: InsertRule,
           kateX: KateXRule,
           kateXBlock: KateXBlockRule,
           container: ContainerRule,
-          ...extendsRules,
+          alerts: AlertsRule,
+
+          ...additionalParserRules,
         },
         ...rest,
       })
@@ -313,8 +331,8 @@ export const Markdown: FC<MdProps & MarkdownToJSX.Options & PropsWithChildren> =
       overrides,
       extendsRules,
       renderers,
+      additionalParserRules,
       rest,
-      MHeader,
     ])
 
     if (removeWrapper) return <Suspense>{node}</Suspense>
@@ -380,34 +398,4 @@ function slugify(str: string) {
       .replaceAll(' ', '-')
       .toLowerCase()
   )
-}
-
-const listRule: Partial<
-  MarkdownToJSX.Rule<
-    MarkdownToJSX.OrderedListNode | MarkdownToJSX.UnorderedListNode
-  >
-> = {
-  render(node, output, state) {
-    const Tag = node.ordered ? 'ol' : 'ul'
-
-    return (
-      <Tag
-        key={state?.key}
-        start={node.type === RuleType.orderedList ? node.start : undefined}
-      >
-        {node.items.map((item: any, i: number) => {
-          let className = ''
-          if (item[0]?.type === 'gfmTask') {
-            className = 'list-none flex items-center'
-          }
-
-          return (
-            <li className={className} key={i}>
-              {output(item, state!)}
-            </li>
-          )
-        })}
-      </Tag>
-    )
-  },
 }

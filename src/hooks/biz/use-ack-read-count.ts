@@ -7,7 +7,9 @@ export const useAckReadCount = (type: 'post' | 'note', id: string) => {
   useEffect(() => {
     queryClient.fetchQuery({
       queryKey: ['ack-read-count', type, id],
-      queryFn: async () => apiClient.ack.read(type, id),
+      queryFn: async () => {
+        return apiClient.ack.read(type, id)
+      },
     })
   }, [])
 }

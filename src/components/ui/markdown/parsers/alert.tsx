@@ -1,4 +1,6 @@
 import clsx from 'clsx'
+import type { MarkdownToJSX } from 'markdown-to-jsx'
+import { blockRegex, Priority } from 'markdown-to-jsx'
 import type { FC } from 'react'
 
 import {
@@ -6,6 +8,8 @@ import {
   FluentWarning28Regular,
   IonInformation,
 } from '~/components/icons/status'
+
+import { Markdown } from '../Markdown'
 
 const textColorMap = {
   NOTE: 'text-blue-500 dark:text-blue-400',
@@ -40,10 +44,7 @@ export const AlertIcon: FC<{
 
   return (
     <span
-      className={clsx(
-        'mb-1 inline-flex items-center font-semibold',
-        textColorMap[finalType],
-      )}
+      className={clsx('mb-1 inline-flex items-center', textColorMap[finalType])}
     >
       <Icon
         className={clsx(
@@ -57,24 +58,44 @@ export const AlertIcon: FC<{
   )
 }
 
-export const GitAlert = (props: { type: string; text: string }) => {
-  const { type, text } = props
+/**
+ *
+ * > [!NOTE]
+ * > Highlights information that users should take into account, even when skimming.
+ */
+const ALERT_BLOCKQUOTE_R =
+  /^(> \[!(?<type>NOTE|IMPORTANT|WARNING|TIP|CAUTION)\].*)(?<body>(?:\n *>.*)*)(?=\n{2,}|$)/
 
-  const upperType = type.toUpperCase() as keyof typeof borderColorMap
-  return (
-    <blockquote
-      className={clsx(
-        'relative px-8 py-4 before:absolute before:left-0 before:top-0 before:h-full before:w-1 before:rounded-md',
-        'not-prose',
-        borderColorMap[upperType],
+export const AlertsRule: MarkdownToJSX.Rule = {
+  match: blockRegex(ALERT_BLOCKQUOTE_R),
+  order: Priority.HIGH,
+  parse(capture) {
+    return {
+      raw: capture[0],
+      parsed: {
+        ...capture.groups,
+      },
+    } as any
+  },
+  react(node, output, state) {
+    const { type, body } = node.parsed
+    const bodyClean = body.replaceAll(/^> */gm, '').trim()
 
-        'not-italic',
-      )}
-    >
-      <AlertIcon type={upperType as any} />
-      <br />
+    return (
+      <blockquote
+        className={clsx(borderColorMap[type], 'not-italic')}
+        key={state.key}
+      >
+        <AlertIcon type={type as any} />
+        <br />
 
-      {text}
-    </blockquote>
-  )
+        <Markdown
+          allowsScript
+          className="not-prose w-full [&>p:first-child]:mt-0"
+        >
+          {bodyClean}
+        </Markdown>
+      </blockquote>
+    )
+  },
 }

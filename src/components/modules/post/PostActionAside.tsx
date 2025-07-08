@@ -143,7 +143,7 @@ const LikeButton = () => {
           },
         }}
         transition={{
-          ease: 'easeInOut',
+          easings: ['easeInOut'],
         }}
       >
         <ThumbsupIcon />

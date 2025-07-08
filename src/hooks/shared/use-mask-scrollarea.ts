@@ -1,70 +1,11 @@
 import clsx from 'clsx'
-import { useIsomorphicLayoutEffect } from 'foxact/use-isomorphic-layout-effect'
-import { useCallback, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 
-import { useViewport } from '~/atoms/hooks/viewport'
-import { debounce } from '~/lib/lodash'
+import { useViewport } from '~/atoms/hooks'
 
 import { useEventCallback } from '../common/use-event-callback'
 
 const THRESHOLD = 0
-
-export const useContainerCanScroll = <T extends HTMLElement = HTMLElement>({
-  ref,
-  element,
-  selector,
-}: {
-  ref?: React.RefObject<HTMLElement | null>
-  element?: HTMLElement
-  selector?: string
-} = {}) => {
-  const containerRef = useRef<T>(null)
-  const [canScroll, setCanScroll] = useState(false)
-
-  const getDomRef = useCallback(() => {
-    let $ = containerRef.current || ref?.current || element
-
-    if (!$) return
-
-    if (selector) {
-      $ = $.querySelector(selector) as HTMLElement
-    }
-    return $
-  }, [ref, selector, element])
-
-  const eventHandler = useEventCallback(() => {
-    const $ = getDomRef()
-
-    if (!$) return
-
-    // if $ can not scroll
-    if ($.scrollHeight <= $.clientHeight + 2) {
-      setCanScroll(false)
-      return
-    }
-
-    setCanScroll(true)
-  })
-
-  useIsomorphicLayoutEffect(() => {
-    const $ = getDomRef()
-    if (!$) return
-
-    $.addEventListener('scroll', eventHandler)
-    const resizeObserver = new ResizeObserver(debounce(eventHandler, 36))
-    resizeObserver.observe($)
-    return () => {
-      $.removeEventListener('scroll', eventHandler)
-      resizeObserver.disconnect()
-    }
-  }, [eventHandler, getDomRef, element])
-
-  useIsomorphicLayoutEffect(() => {
-    eventHandler()
-  }, [eventHandler, element])
-
-  return [containerRef, canScroll] as const
-}
 export const useMaskScrollArea = <T extends HTMLElement = HTMLElement>({
   ref,
   size = 'base',
@@ -79,11 +20,7 @@ export const useMaskScrollArea = <T extends HTMLElement = HTMLElement>({
   const containerRef = useRef<T>(null)
   const [isScrollToBottom, setIsScrollToBottom] = useState(false)
   const [isScrollToTop, setIsScrollToTop] = useState(false)
-  const [, canScroll] = useContainerCanScroll({
-    ref: containerRef,
-    element,
-    selector,
-  })
+  const [canScroll, setCanScroll] = useState(false)
   const h = useViewport((v) => v.h)
 
   const getDomRef = useCallback(() => {
@@ -103,10 +40,13 @@ export const useMaskScrollArea = <T extends HTMLElement = HTMLElement>({
 
     // if $ can not scroll
     if ($.scrollHeight <= $.clientHeight + 2) {
+      setCanScroll(false)
       setIsScrollToBottom(false)
       setIsScrollToTop(false)
       return
     }
+
+    setCanScroll(true)
 
     // if $ can scroll
     const isScrollToBottom =
@@ -115,7 +55,7 @@ export const useMaskScrollArea = <T extends HTMLElement = HTMLElement>({
     setIsScrollToBottom(isScrollToBottom)
     setIsScrollToTop(isScrollToTop)
   })
-  useIsomorphicLayoutEffect(() => {
+  useEffect(() => {
     const $ = getDomRef()
     if (!$) return
 
@@ -126,7 +66,7 @@ export const useMaskScrollArea = <T extends HTMLElement = HTMLElement>({
     }
   }, [eventHandler, getDomRef, element])
 
-  useIsomorphicLayoutEffect(() => {
+  useEffect(() => {
     eventHandler()
   }, [eventHandler, h, element])
 
@@ -139,7 +79,7 @@ export const useMaskScrollArea = <T extends HTMLElement = HTMLElement>({
     containerRef,
     canScroll
       ? clsx(
-          // 'scroller',
+          'scroller',
           isScrollToBottom && 'mask-t',
           isScrollToTop && 'mask-b',
           !isScrollToBottom && !isScrollToTop && 'mask-both',

@@ -1,7 +1,6 @@
 import type { HTMLMotionProps, m, TargetAndTransition } from 'motion/react'
 
-export interface BaseTransitionProps
-  extends Omit<HTMLMotionProps<'div'>, 'ref'> {
+export interface BaseTransitionProps extends HTMLMotionProps<'div'> {
   duration?: number
 
   timeout?: {

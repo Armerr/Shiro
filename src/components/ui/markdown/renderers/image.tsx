@@ -17,7 +17,6 @@ import {
 
 import { Divider } from '../../divider/Divider'
 import { FixedZoomedImage } from '../../image/ZoomedImage'
-import { Video } from './video'
 
 export const MarkdownImage = (props: { src: string; alt?: string }) => {
   const { src, alt } = props
@@ -34,7 +33,7 @@ export const MarkdownImage = (props: { src: string; alt?: string }) => {
     const figcaption = alt?.replace(/^[¡!]/, '')
     return (
       <div className="flex flex-col items-center">
-        <Video
+        <video
           src={src}
           className={mediaInfo && 'fit'}
           style={
@@ -43,6 +42,7 @@ export const MarkdownImage = (props: { src: string; alt?: string }) => {
               '--video-width': mediaInfo?.width,
             } as any
           }
+          controls
           playsInline
           autoPlay={false}
         />

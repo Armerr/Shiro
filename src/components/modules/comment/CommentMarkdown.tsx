@@ -1,14 +1,16 @@
 import type { FC } from 'react'
 
-import { Markdown, RuleType } from '~/components/ui/markdown'
+import type { MarkdownToJSX } from '~/components/ui/markdown'
+import { Markdown } from '~/components/ui/markdown'
 
 const disabledTypes = [
-  RuleType.footnote,
-  RuleType.footnoteReference,
-  RuleType.htmlComment,
-  RuleType.htmlSelfClosing,
-  RuleType.htmlBlock,
-]
+  'footnote',
+  'footnoteReference',
+
+  'htmlComment',
+  'htmlSelfClosing',
+  'htmlBlock',
+] as MarkdownToJSX.RuleName[]
 
 export const CommentMarkdown: FC<{
   children: string

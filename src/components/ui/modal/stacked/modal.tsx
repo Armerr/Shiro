@@ -1,12 +1,7 @@
 import * as Dialog from '@radix-ui/react-dialog'
 import { useAtomValue, useSetAtom } from 'jotai'
 import { selectAtom } from 'jotai/utils'
-import type {TargetAndTransition} from 'motion/react';
-import {
-  m,
-  useAnimationControls,
-  useDragControls
-} from 'motion/react'
+import { m, useAnimationControls, useDragControls } from 'motion/react'
 import type { SyntheticEvent } from 'react'
 import {
   createElement,
@@ -110,7 +105,7 @@ export const ModalInternal: Component<{
   useEffect(() => {
     if (isMobile) return
     nextFrame(() => {
-      animateController.start(modalMontionConfig.animate as TargetAndTransition)
+      animateController.start(modalMontionConfig.animate)
     })
   }, [animateController, isMobile])
   const noticeModal = useCallback(() => {

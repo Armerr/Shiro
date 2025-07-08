@@ -1,9 +1,9 @@
 'use client'
 
-import type { Transition } from 'motion/react'
+import type { Spring } from 'motion/react'
 import { animateValue } from 'motion/react'
 
-const spring: Transition = {
+const spring: Spring = {
   type: 'spring',
   stiffness: 1000,
   damping: 250,

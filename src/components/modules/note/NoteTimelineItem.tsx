@@ -1,6 +1,6 @@
 'use client'
 
-import type { TargetAndTransition } from 'motion/react'
+import type { Target, TargetAndTransition } from 'motion/react'
 import { m } from 'motion/react'
 import Link from 'next/link'
 import { memo } from 'react'
@@ -20,7 +20,7 @@ const styles = tv({
     },
   },
 })
-const initialLi: TargetAndTransition = {
+const initialLi: Target = {
   opacity: 0.0001,
 }
 const animateLi: TargetAndTransition = {
